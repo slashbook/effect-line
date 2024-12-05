@@ -26,28 +26,10 @@ pnpm add @effect-line/messaging
 pnpm add @effect-line/pay
 ```
 
-```typescript
-import * as Messaging from "@effect-line/messaging"
-import * as Config from "@effect/io/Config"
-
-// Create a message client
-const program = Messaging.make({
-  channelId: Config.string("LINE_CHANNEL_ID"),
-  channelSecret: Config.string("LINE_CHANNEL_SECRET"),
-  channelAccessToken: Config.string("LINE_CHANNEL_ACCESS_TOKEN")
-})
-
-// Send a message
-const sendMessage = Messaging.text("Hello from Effect!")
-  .pipe(
-    Messaging.send("USER_ID"),
-    Effect.provideLayer(program)
-  )
-```
-
 ## Development
 
 This project uses:
+
 - `pnpm` for package management
 - `tsup` for bundling
 - `vitest` for testing
