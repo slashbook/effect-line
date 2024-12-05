@@ -23,10 +23,13 @@ const program = Effect.gen(function*($) {
   const api = yield* $(MessagingApi)
   
   // Send a text message
-  const response = yield* $(api.pushMessage("userId", [{
-    type: "text",
-    text: "Hello, world!"
-  }]))
+  const response = yield* $(api.pushMessage({ 
+    to: "userId", 
+    messages: [{
+      type: "text",
+      text: "Hello, world!"
+    }]
+  }))
   
   return response
 })
@@ -44,7 +47,13 @@ All errors from the LINE Bot SDK are wrapped in `LineBotSDKError`:
 
 ```typescript
 try {
-  const response = yield* $(api.pushMessage("userId", message))
+  const response = yield* $(api.pushMessage({ 
+    to: "userId", 
+    messages: [{
+      type: "text",
+      text: "Hello, world!"
+    }]
+  }))
 } catch (error) {
   if (error instanceof LineBotSDKError) {
     console.error('LINE Bot SDK Error:', error.error)
@@ -55,7 +64,7 @@ try {
 
 ## Available Methods
 
-The package provides Effect-based wrappers for all LINE Bot SDK methods:
+The package provides Effect-based wrappers for LINE Bot SDK methods:
 
 - Message Operations
   - `pushMessage`
@@ -73,17 +82,7 @@ The package provides Effect-based wrappers for all LINE Bot SDK methods:
   - `leaveGroup`
   - `leaveRoom`
 
-- Rich Menu Operations
-  - `getRichMenu`
-  - `createRichMenu`
-  - `deleteRichMenu`
-  - `getRichMenuAliasList`
-  - `getRichMenuAlias`
-  - `createRichMenuAlias`
-  - `updateRichMenuAlias`
-  - `deleteRichMenuAlias`
-  - `getRichMenuIdOfUser`
-  - `getRichMenuList`
+- Default Rich Menu Operations
   - `getDefaultRichMenuId`
   - `setDefaultRichMenu`
   - `cancelDefaultRichMenu`
