@@ -10,8 +10,8 @@
  *
  * const program = Effect.gen(function*($) {
  *   const api = yield* $(MessagingApi)
- *   const response = yield* $(api.pushMessage({ 
- *     to: "userId", 
+ *   const response = yield* $(api.pushMessage({
+ *     to: "userId",
  *     messages: [{
  *       type: "text",
  *       text: "Hello, world!"
@@ -79,8 +79,8 @@ type NumberOfSentBroadcastMessagesResponse = messagingApi.NumberOfMessagesRespon
  * @example
  * ```typescript
  * try {
- *   const response = yield* $(api.pushMessage({ 
- *     to: "userId", 
+ *   const response = yield* $(api.pushMessage({
+ *     to: "userId",
  *     messages: [{
  *       type: "text",
  *       text: "Hello, world!"
@@ -251,8 +251,8 @@ export interface MessagingApiInterface {
  * ```typescript
  * const program = Effect.gen(function*($) {
  *   const api = yield* $(MessagingApi)
- *   return yield* $(api.pushMessage({ 
- *     to: "userId", 
+ *   return yield* $(api.pushMessage({
+ *     to: "userId",
  *     messages: [{
  *       type: "text",
  *       text: "Hello, world!"
