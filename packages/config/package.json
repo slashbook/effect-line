@@ -1,0 +1,23 @@
+{
+  "name": "@effect-line/config",
+  "version": "1.0.0",
+  "description": "Configuration for Effect Line packages",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest"
+  },
+  "keywords": ["effect", "line", "config"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "effect": "^3.11.2"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.3"
+  }
+}

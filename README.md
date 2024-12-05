@@ -48,3 +48,45 @@ pnpm test
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Configuration Usage
+
+```typescript
+import { Redacted } from "effect"
+import { MessagingApi } from "@effect-line/messaging-api"
+import { config } from "@effect-line/config"
+import * as Effect from "effect"
+
+// Create a program that uses the configuration
+const program = Effect.gen(function* ($) {
+  // Get config values
+  const lineConfig = yield* $(Effect.config(config))
+
+  // Create MessagingApi layer with config
+  const layer = MessagingApi.live(Redacted.value(lineConfig.channelAccessToken))
+
+  // Use the MessagingApi
+  const api = yield* $(MessagingApi)
+  const response = yield* $(
+    api.pushMessage({
+      to: "userId",
+      messages: [
+        {
+          type: "text",
+          text: "Hello, world!"
+        }
+      ]
+    })
+  )
+
+  return response
+}).pipe(Effect.provide(layer))
+```
+
+Your `.env` file should look like:
+
+```makefile
+LINE_CHANNEL_ID=your-channel-id
+LINE_CHANNEL_SECRET=your-channel-secret
+LINE_CHANNEL_ACCESS_TOKEN=your-channel-access-token
+```
