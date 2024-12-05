@@ -18,7 +18,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "effect": "^2.4.0"
+    "effect": "^3.11.2"
   },
   "devDependencies": {
     "tsup": "^8.0.2",

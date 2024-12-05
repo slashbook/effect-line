@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["src", "test"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "types": ["node"],
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "baseUrl": ".",
+    "paths": {
+      "@line/bot-sdk": ["./node_modules/@line/bot-sdk"]
+    }
+  }
+}

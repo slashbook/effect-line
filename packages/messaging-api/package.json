@@ -1,0 +1,47 @@
+{
+  "name": "@effect-line/messaging-api",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Effect-based LINE Messaging API client",
+  "author": "Chen Hsin-Yi",
+  "license": "MIT",
+  "keywords": [
+    "effect",
+    "line",
+    "bot",
+    "sdk",
+    "messaging",
+    "api"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/effect-line.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/effect-line/issues"
+  },
+  "homepage": "https://github.com/your-username/effect-line",
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "rimraf dist coverage",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^8.2.0",
+    "effect": "3.11.2"
+  },
+  "devDependencies": {
+    "@effect/vitest": "^0.14.2",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.2",
+    "vitest": "^0.34.6"
+  },
+  "peerDependencies": {
+    "@line/bot-sdk": "^8.2.0",
+    "effect": "^2.0.0-next.54"
+  }
+}
