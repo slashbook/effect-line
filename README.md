@@ -1,32 +1,68 @@
-# Effect Monorepo Template
+# @effect-line
 
-This template provides a solid foundation for building scalable and maintainable TypeScript applications with Effect. 
+A collection of Effect-based libraries for working with LINE Platform APIs. This project wraps LINE SDK functionalities in the Effect type, making them more ergonomic to use within the [Effect](https://www.effect.website) ecosystem.
 
-## Running Code
+## Features
 
-This template leverages [tsx](https://tsx.is) to allow execution of TypeScript files via NodeJS as if they were written in plain JavaScript.
+- Type-safe LINE API integrations
+- Effect-based error handling and dependency injection
+- First-class TypeScript support
+- Modern ES modules
 
-To execute a file with `tsx`:
+## Packages
 
-```sh
-pnpm tsx ./path/to/the/file.ts
+- `@effect-line/types` - Shared TypeScript types and interfaces
+- `@effect-line/messaging` - LINE Messaging API integration
+- `@effect-line/pay` - LINE Pay API integration (coming soon)
+- `@effect-line/notify` - LINE Notify API integration (coming soon)
+
+## Getting Started
+
+```bash
+# Install messaging package
+pnpm add @effect-line/messaging
+
+# Install pay package (coming soon)
+pnpm add @effect-line/pay
 ```
 
-## Operations
+```typescript
+import * as Messaging from "@effect-line/messaging"
+import * as Config from "@effect/io/Config"
 
-**Building**
+// Create a message client
+const program = Messaging.make({
+  channelId: Config.string("LINE_CHANNEL_ID"),
+  channelSecret: Config.string("LINE_CHANNEL_SECRET"),
+  channelAccessToken: Config.string("LINE_CHANNEL_ACCESS_TOKEN")
+})
 
-To build all packages in the monorepo:
+// Send a message
+const sendMessage = Messaging.text("Hello from Effect!")
+  .pipe(
+    Messaging.send("USER_ID"),
+    Effect.provideLayer(program)
+  )
+```
 
-```sh
+## Development
+
+This project uses:
+- `pnpm` for package management
+- `tsup` for bundling
+- `vitest` for testing
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build all packages
 pnpm build
-```
 
-**Testing**
-
-To test all packages in the monorepo:
-
-```sh
+# Run tests
 pnpm test
 ```
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
