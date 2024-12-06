@@ -3,6 +3,6 @@
   "include": [],
   "references": [
     { "path": "./packages/types/tsconfig.build.json" },
-    { "path": "./packages/message/tsconfig.build.json" }
+    { "path": "./packages/messaging-api/tsconfig.build.json" }
   ]
 }
