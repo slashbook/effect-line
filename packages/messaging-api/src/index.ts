@@ -28,21 +28,6 @@
  */
 
 import { messagingApi } from "@line/bot-sdk"
-import type {
-  BroadcastRequest,
-  IssueLinkTokenResponse,
-  MulticastRequest,
-  NarrowcastRequest,
-  PushMessageRequest,
-  PushMessageResponse,
-  ReplyMessageRequest,
-  ReplyMessageResponse
-  // RichMenuAliasListResponse,
-  // RichMenuAliasResponse,
-  // RichMenuListResponse,
-  // RichMenuRequest,
-  // UpdateRichMenuAliasRequest
-} from "@line/bot-sdk/dist/messaging-api/api.js"
 import * as Context from "effect/Context"
 import * as Data from "effect/Data"
 import * as Effect from "effect/Effect"
@@ -52,6 +37,14 @@ import * as Layer from "effect/Layer"
 type MulticastResponse = any
 type BroadcastResponse = any
 type NarrowcastResponse = any
+type BroadcastRequest = any
+type IssueLinkTokenResponse = any
+type MulticastRequest = any
+type NarrowcastRequest = any
+type PushMessageRequest = any
+type PushMessageResponse = any
+type ReplyMessageRequest = any
+type ReplyMessageResponse = any
 type ProfileResponse = messagingApi.UserProfileResponse
 type GroupMemberProfileResponse = messagingApi.GroupUserProfileResponse
 type RoomMemberProfileResponse = messagingApi.RoomUserProfileResponse

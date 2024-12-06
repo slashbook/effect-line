@@ -35,7 +35,10 @@
     "module": "NodeNext",
     "incremental": true,
     "removeComments": false,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "plugins": [{ "name": "@effect/language-service" }],
-    "paths": {}
+    "paths": {
+      "@effect-line/messaging-api": ["./packages/messaging-api/src/index.ts"]
+    }
   }
 }
