@@ -6,7 +6,12 @@ export default defineConfig({
   target: "node18",
   sourcemap: true,
   clean: true,
-  dts: true,
+  dts: {
+    compilerOptions: {
+      composite: false,
+      incremental: false
+    }
+  },
   splitting: false,
   bundle: true
 })
