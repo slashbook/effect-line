@@ -15,7 +15,7 @@
     "@effect-line/messaging-api": "workspace:*",
     "@effect/cli": "^0.49.4",
     "@effect/platform": "^0.70.4",
-    "@effect/platform-node": "^0.39.0",
+    "@effect/platform-node": "^0.65.4",
     "effect": "^3.11.3"
   },
   "devDependencies": {
