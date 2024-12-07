@@ -11,7 +11,7 @@
     "bin"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsc -p tsconfig.build.json --emitDeclarationOnly && tsup",
     "dev": "tsup --watch"
   },
   "dependencies": {

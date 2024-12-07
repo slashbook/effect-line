@@ -24,32 +24,36 @@ pnpm build
 
 ```bash
 # From the root of the monorepo
-./bin/effect-line.js
+node packages/cli/dist/index.js
 
-# Or directly with pnpm
+# Or with pnpm
 pnpm --filter @effect-line/cli exec effect-line
 ```
 
 ## Configuration
 
-Create a `.env` file in your project root with your LINE credentials:
+The CLI requires LINE API credentials. Set them using environment variables:
 
 ```env
-LINE_CHANNEL_ID=your-channel-id
-LINE_CHANNEL_SECRET=your-channel-secret
 LINE_CHANNEL_ACCESS_TOKEN=your-channel-access-token
 ```
 
 ## Commands
 
-Currently implemented commands:
+### Push Message
 
-- `effect-line`: Displays "Hello World" (default command)
+Send text messages to a LINE user:
 
-Coming soon:
+```bash
+effect-line push-message --userId USER_ID --message "Hello" --message "World"
+# or using aliases
+effect-line push-message -u USER_ID -m "Hello" -m "World"
+```
 
-- `push`: Send a push message to a single user
-- `multicast`: Send a message to multiple users
+Options:
+
+- `--userId, -u`: The LINE user ID to send messages to
+- `--message, -m`: Text messages to send (can be specified multiple times)
 
 ## License
 
