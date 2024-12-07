@@ -6,6 +6,10 @@
   "bin": {
     "effect-line": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"

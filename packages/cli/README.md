@@ -12,6 +12,24 @@ yarn add @effect-line/cli
 pnpm add @effect-line/cli
 ```
 
+## Development Setup
+
+1. Build the CLI:
+
+```bash
+pnpm build
+```
+
+2. Run in development:
+
+```bash
+# From the root of the monorepo
+./bin/effect-line.js
+
+# Or directly with pnpm
+pnpm --filter @effect-line/cli exec effect-line
+```
+
 ## Configuration
 
 Create a `.env` file in your project root with your LINE credentials:
@@ -22,48 +40,16 @@ LINE_CHANNEL_SECRET=your-channel-secret
 LINE_CHANNEL_ACCESS_TOKEN=your-channel-access-token
 ```
 
-## Usage
+## Commands
 
-### Send a Push Message
+Currently implemented commands:
 
-Send a message to a specific user:
+- `effect-line`: Displays "Hello World" (default command)
 
-```bash
-effect-line push --userId USER_ID --message "Hello, world!"
-```
-
-### Send a Multicast Message
-
-Send a message to multiple users:
-
-```bash
-effect-line multicast --userIds USER_ID1,USER_ID2,USER_ID3 --message "Hello, everyone!"
-```
-
-## Available Commands
+Coming soon:
 
 - `push`: Send a push message to a single user
-  - Options:
-    - `--userId, -t`: User ID to send message to
-    - `--message, -m`: Message text to send
-
 - `multicast`: Send a message to multiple users
-  - Options:
-    - `--userIds, -t`: Comma-separated list of user IDs
-    - `--message, -m`: Message text to send
-
-## Development
-
-```bash
-# Install dependencies
-pnpm install
-
-# Build the CLI
-pnpm build
-
-# Run tests
-pnpm test
-```
 
 ## License
 
