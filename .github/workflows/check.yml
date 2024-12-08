@@ -53,6 +53,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         uses: ./.github/actions/setup
-      - run: pnpm vitest 
+      - name: Run tests
+        run: pnpm test:ci
         env:
           NODE_OPTIONS: --max_old_space_size=8192
