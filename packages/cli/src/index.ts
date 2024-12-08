@@ -9,6 +9,11 @@ const userId = Options.text("userId").pipe(
   Options.withAlias("u")
 )
 
+const userIds = Options.text("userIds").pipe(
+  Options.withDescription("The user IDs to send the message to (comma-separated)"),
+  Options.withAlias("U")
+)
+
 const message = Options.text("message").pipe(
   Options.withDescription("The messages to send"),
   Options.withAlias("m"),
@@ -27,6 +32,24 @@ const pushMessageCommand = Command.make("push-message", { userId, message }).pip
   })
 )
 
+const multicastCommand = Command.make("multicast", { userIds, message }).pipe(
+  Command.withDescription("Send messages to multiple users"),
+  Command.withHandler(({ message, userIds }) => {
+    return Effect.gen(function*($) {
+      const api = yield* $(MessagingApi)
+      const messages = message.map((m) => ({ type: "text", text: m }))
+      const to = userIds.split(",").map((id) => id.trim())
+      const result = yield* $(api.multicast({ to, messages }))
+      yield* $(Console.log(`${result.sentMessages.length} messages sent successfully to ${to.length} users`))
+    })
+  })
+)
+
+const messagingApiCommands = Command.make("messaging-api").pipe(
+  Command.withDescription("LINE Messaging API commands"),
+  Command.withSubcommands([pushMessageCommand, multicastCommand])
+)
+
 const commandName = "effect-line"
 const commandVersion = "0.0.1"
 const commandDescription = "A command-line interface for interacting with LINE API."
@@ -40,7 +63,7 @@ const command = Command.make(commandName).pipe(
     })
   ),
   Command.withDescription(commandDescription),
-  Command.withSubcommands([pushMessageCommand])
+  Command.withSubcommands([messagingApiCommands])
 )
 
 // Set up the CLI application

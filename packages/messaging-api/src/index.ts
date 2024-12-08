@@ -5,7 +5,7 @@
  */
 
 import { messagingApi } from "@line/bot-sdk"
-import type { PushMessageRequest, PushMessageResponse } from "@line/bot-sdk/dist/messaging-api/api.js"
+import type { MulticastRequest, PushMessageRequest, PushMessageResponse } from "@line/bot-sdk/dist/messaging-api/api.js"
 import * as Context from "effect/Context"
 import * as Data from "effect/Data"
 import * as Effect from "effect/Effect"
@@ -13,6 +13,8 @@ import * as Layer from "effect/Layer"
 
 import { config } from "@effect-line/config"
 import { Redacted } from "effect"
+
+type MulticastResponse = any
 
 /**
  * Represents errors that occur when interacting with the LINE Bot SDK.
@@ -47,7 +49,8 @@ const makeMessagingApi = (channelAccessToken: string) =>
     try: () => {
       const client = new messagingApi.MessagingApiClient({ channelAccessToken })
       return {
-        pushMessage: effectify(client.pushMessage.bind(client))
+        pushMessage: effectify(client.pushMessage.bind(client)),
+        multicast: effectify(client.multicast.bind(client))
       }
     },
     catch: (error) => new LineBotSDKError({ error })
@@ -77,6 +80,11 @@ export interface MessagingApiInterface {
     pushMessageRequest: PushMessageRequest,
     xLineRetryKey?: string | undefined
   ) => Effect.Effect<PushMessageResponse, LineBotSDKError, never>
+
+  readonly multicast: (
+    multicastRequest: MulticastRequest,
+    xLineRetryKey?: string | undefined
+  ) => Effect.Effect<MulticastResponse, LineBotSDKError, never>
 }
 
 /**

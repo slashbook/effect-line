@@ -42,7 +42,7 @@ LINE_CHANNEL_ACCESS_TOKEN=your-channel-access-token
 
 ### Push Message
 
-Send text messages to a LINE user:
+Send text messages to a single LINE user:
 
 ```bash
 effect-line push-message --userId USER_ID --message "Hello" --message "World"
@@ -50,10 +50,23 @@ effect-line push-message --userId USER_ID --message "Hello" --message "World"
 effect-line push-message -u USER_ID -m "Hello" -m "World"
 ```
 
-Options:
+### Multicast Message
 
-- `--userId, -u`: The LINE user ID to send messages to
-- `--message, -m`: Text messages to send (can be specified multiple times)
+Send text messages to multiple LINE users:
+
+```bash
+effect-line multicast --userIds USER_ID1,USER_ID2,USER_ID3 --message "Hello everyone"
+# or using aliases
+effect-line multicast -U USER_ID1,USER_ID2,USER_ID3 -m "Hello everyone"
+```
+
+## Options
+
+| Option    | Alias | Description                                     |
+|-----------|-------|-------------------------------------------------|
+| --userId  | -u    | Single user ID for push message                 |
+| --userIds | -U    | Comma-separated list of user IDs for multicast  |
+| --message | -m    | Message text (can be used multiple times)       |
 
 ## License
 

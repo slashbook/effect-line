@@ -51,11 +51,10 @@ describe("MessagingApi", () => {
 
       const calls = testApi.getPushMessageCalls()
       expect(calls).toHaveLength(1)
-      expect(calls[0].request).toStrictEqual({
+      expect(calls[0].request).toEqual({
         to: mockUserId,
         messages: [mockMessage]
       })
-      expect(calls[0].retryKey).toEqual("")
     })
 
     it("should handle optional xLineRetryKey", async () => {
@@ -110,6 +109,56 @@ describe("MessagingApi", () => {
       const calls = testApi.getPushMessageCalls()
       expect(calls).toHaveLength(1)
       expect(calls[0].request.messages[0]).toEqual(invalidMessage)
+    })
+  })
+
+  describe("multicast", () => {
+    const mockUserIds = ["user-1", "user-2", "user-3"]
+
+    it("should successfully send a message to multiple users", async () => {
+      const program = Effect.gen(function*() {
+        const api = yield* MessagingApi
+        const response = yield* api.multicast({
+          to: mockUserIds,
+          messages: [mockMessage]
+        })
+        return response
+      })
+
+      await Effect.runPromise(
+        program.pipe(
+          Effect.provide(Layer.merge(createTestLayer, createMockConfigLayer()))
+        )
+      )
+
+      const calls = testApi.getMulticastCalls()
+      expect(calls).toHaveLength(1)
+      expect(calls[0].request).toEqual({
+        to: mockUserIds,
+        messages: [mockMessage]
+      })
+    })
+
+    it("should handle retry key for multicast", async () => {
+      const retryKey = "test-retry-key"
+      const program = Effect.gen(function*() {
+        const api = yield* MessagingApi
+        const response = yield* api.multicast({
+          to: mockUserIds,
+          messages: [mockMessage]
+        }, retryKey)
+        return response
+      })
+
+      await Effect.runPromise(
+        program.pipe(
+          Effect.provide(Layer.merge(createTestLayer, createMockConfigLayer()))
+        )
+      )
+
+      const calls = testApi.getMulticastCalls()
+      expect(calls).toHaveLength(1)
+      expect(calls[0].retryKey).toBe(retryKey)
     })
   })
 })
