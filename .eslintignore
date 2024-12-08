@@ -1,0 +1,12 @@
+dist/
+build/
+coverage/
+node_modules/
+
+# Generated files
+packages/**/*.d.ts
+packages/**/*.js
+packages/**/*.d.ts.map
+packages/**/*.js.map
+packages/**/*.mjs
+packages/**/*.cjs

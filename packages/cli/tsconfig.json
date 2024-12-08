@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.base.json",
   "include": ["src", "test"],
   "references": [
-    { "path": "../types" },
     { "path": "../config" },
     { "path": "../messaging-api" }
   ]
