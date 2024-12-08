@@ -12,10 +12,6 @@
     "types": ["node"],
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
-    "baseUrl": ".",
-    "paths": {
-      "@line/bot-sdk": ["./node_modules/@line/bot-sdk"],
-      "@effect-line/config": ["../config/src"]
-    }
+    "baseUrl": "."
   }
 }

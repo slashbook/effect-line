@@ -38,7 +38,12 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "plugins": [{ "name": "@effect/language-service" }],
     "paths": {
-      "@effect-line/messaging-api": ["./packages/messaging-api/src/index.ts"]
+      "@effect-line/messaging-api": ["./packages/messaging-api/src/index.ts"],
+      "@effect-line/messaging-api/*": ["./packages/messaging-api/src/*"],
+      "@effect-line/config": ["./packages/config/src/index.ts"],
+      "@effect-line/config/*": ["./packages/config/src/*"],
+      "@effect-line/cli": ["./packages/cli/src/index.ts"],
+      "@effect-line/cli/*": ["./packages/cli/src/*"]
     }
   }
 }

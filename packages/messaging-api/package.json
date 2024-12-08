@@ -34,19 +34,21 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json --emitDeclarationOnly && tsup",
     "clean": "rimraf dist coverage",
+    "dev": "tsup --watch",
     "test": "vitest"
   },
   "dependencies": {
     "@effect-line/config": "workspace:*",
-    "@line/bot-sdk": "^8.2.0",
-    "effect": "3.11.3"
+    "@line/bot-sdk": "^8.4.0",
+    "effect": "^3.10.7"
   },
   "devDependencies": {
     "@effect/vitest": "^0.14.2",
+    "@types/node": "^20.10.5",
     "rimraf": "^5.0.5",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.2",
-    "vitest": "^0.34.6"
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
   },
   "peerDependencies": {
     "@line/bot-sdk": "^8.2.0"
