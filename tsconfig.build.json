@@ -2,6 +2,8 @@
   "extends": "./tsconfig.json",
   "include": [],
   "references": [
-    { "path": "./packages/messaging-api/tsconfig.build.json" }
+    { "path": "./packages/messaging-api/tsconfig.build.json" },
+    { "path": "./packages/config/tsconfig.build.json" },
+    { "path": "./packages/cli/tsconfig.build.json" }
   ]
 }
