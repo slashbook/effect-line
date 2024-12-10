@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "module": "NodeNext",
+    "target": "ESNext",
+    "moduleResolution": "NodeNext",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../config" },
+    { "path": "../messaging-api" }
+  ]
+}

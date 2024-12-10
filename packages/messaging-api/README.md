@@ -14,6 +14,8 @@ pnpm add @effect-line/messaging-api
 
 ## Usage
 
+### Push Message
+
 ```typescript
 import { MessagingApi } from "@effect-line/messaging-api"
 import { Effect } from "effect"
@@ -22,7 +24,7 @@ import { Effect } from "effect"
 const program = Effect.gen(function*($) {
   const api = yield* $(MessagingApi)
   
-  // Send a text message
+  // Send a text message to a single user
   const response = yield* $(api.pushMessage({ 
     to: "userId", 
     messages: [{
@@ -39,6 +41,26 @@ const layer = MessagingApi.live("your-channel-access-token")
 
 // Run the program with the layer
 const result = yield* $(program.pipe(Effect.provide(layer)))
+```
+
+### Multicast Message
+
+```typescript
+// Send a message to multiple users
+const multicastProgram = Effect.gen(function*($) {
+  const api = yield* $(MessagingApi)
+  
+  // Send a text message to multiple users
+  const response = yield* $(api.multicast({ 
+    to: ["userId1", "userId2", "userId3"], 
+    messages: [{
+      type: "text",
+      text: "Hello, everyone!"
+    }]
+  }))
+  
+  return response
+})
 ```
 
 ## Error Handling
@@ -93,6 +115,31 @@ The package provides Effect-based wrappers for LINE Bot SDK methods:
   - `getNumberOfSentPushMessages`
   - `getNumberOfSentMulticastMessages`
   - `getNumberOfSentBroadcastMessages`
+
+## Testing
+
+The package includes a `TestMessagingApi` class that can be used for testing:
+
+```typescript
+import { TestMessagingApi } from "@effect-line/messaging-api/test"
+
+const testApi = new TestMessagingApi()
+const testLayer = Layer.succeed(MessagingApi, testApi)
+
+// Run your program with the test layer
+const result = yield* $(program.pipe(Effect.provide(testLayer)))
+
+// Check the calls made to pushMessage
+const pushCalls = testApi.getPushMessageCalls()
+expect(pushCalls).toHaveLength(1)
+
+// Check the calls made to multicast
+const multicastCalls = testApi.getMulticastCalls()
+expect(multicastCalls).toHaveLength(1)
+
+// Reset all calls
+testApi.reset()
+```
 
 ## License
 

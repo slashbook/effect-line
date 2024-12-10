@@ -15,3 +15,11 @@ scratchpad/*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Generated files
+packages/**/*.d.ts
+packages/**/*.js
+packages/**/*.d.ts.map
+packages/**/*.js.map
+packages/**/*.mjs
+packages/**/*.cjs
