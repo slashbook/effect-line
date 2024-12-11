@@ -13,18 +13,6 @@
     "access": "public",
     "directory": "dist"
   },
-  "exports": {
-    ".": {
-      "import": "./build/esm/index.js",
-      "require": "./build/cjs/index.js",
-      "types": "./build/dts/index.d.ts"
-    },
-    "./Config": {
-      "import": "./build/esm/Config.js",
-      "require": "./build/cjs/Config.js",
-      "types": "./build/dts/Config.d.ts"
-    }
-  },
   "scripts": {
     "codegen": "build-utils prepare-v2",
     "build": "pnpm build-esm && pnpm build-annotate && pnpm build-cjs && build-utils pack-v2",
@@ -37,17 +25,5 @@
   },
   "dependencies": {
     "effect": "latest"
-  },
-  "effect": {
-    "generateExports": {
-      "include": [
-        "**/*.ts"
-      ]
-    },
-    "generateIndex": {
-      "include": [
-        "**/*.ts"
-      ]
-    }
   }
 }
