@@ -3,6 +3,8 @@
   "include": [],
   "references": [
     { "path": "packages/cli" },
+    { "path": "packages/core" },
+    { "path": "packages/messaging-api" },
     { "path": "packages/domain" },
     { "path": "packages/server" }
   ]

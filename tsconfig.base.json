@@ -45,7 +45,11 @@
       "@template/domain/test/*": ["./packages/domain/test/*.js"],
       "@template/server": ["./packages/server/src/index.js"],
       "@template/server/*": ["./packages/server/src/*.js"],
-      "@template/server/test/*": ["./packages/server/test/*.js"]
+      "@template/server/test/*": ["./packages/server/test/*.js"],
+      "@effect-line/core": ["./packages/core/src/index.js"],
+      "@effect-line/core/*": ["./packages/core/src/*.js"],
+      "@effect-line/messaging-api": ["./packages/messaging-api/src/index.js"],
+      "@effect-line/messaging-api/*": ["./packages/messaging-api/src/*.js"],
     }
   }
 }

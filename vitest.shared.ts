@@ -27,6 +27,8 @@ const config: UserConfig = {
     },
     include: ["test/**/*.test.ts"],
     alias: {
+      ...alias("core"),
+      ...alias("messaging-api"),
       ...alias("cli"),
       ...alias("domain"),
       ...alias("server")
