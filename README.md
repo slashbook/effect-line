@@ -1,32 +1,42 @@
-# Effect Monorepo Template
+# @effect-line
 
-This template provides a solid foundation for building scalable and maintainable TypeScript applications with Effect. 
+A collection of Effect-based libraries for working with LINE Platform APIs. This project wraps LINE SDK functionalities in the Effect type, making them more ergonomic to use within the [Effect](https://www.effect.website) ecosystem.
 
-## Running Code
+## Features
 
-This template leverages [tsx](https://tsx.is) to allow execution of TypeScript files via NodeJS as if they were written in plain JavaScript.
+- Type-safe LINE API integrations with automatic error handling
+- Dependency injection and testing made easy with Effect
+- Modern ES modules and CommonJS support
+- Command line tools for development
 
-To execute a file with `tsx`:
+## Packages
 
-```sh
-pnpm tsx ./path/to/the/file.ts
+- `@effect-line/core` - Shared types, utilities
+- `@effect-line/messaging-api` - LINE Messaging API integration with automatic error handling and retry policies
+- `@effect-line/liff` - LINE Liff API integration (coming soon)
+
+## Installation
+
+```bash
+pnpm add @effect-line/messaging-api @effect-line/config
 ```
 
-## Operations
+## Development
 
-**Building**
+```bash
+# Install
+git clone https://github.com/your-username/effect-line.git
+cd effect-line
+pnpm install
 
-To build all packages in the monorepo:
-
-```sh
-pnpm build
+# Common commands
+pnpm build    # Build all packages
+pnpm test     # Run tests
+pnpm format   # Format code
 ```
 
-**Testing**
+For development guidelines and best practices when using Windsurf IDE, please refer to [PROMPTS.md](PROMPTS.md).
 
-To test all packages in the monorepo:
+## License
 
-```sh
-pnpm test
-```
-
+MIT License - see the [LICENSE](LICENSE) file for details
