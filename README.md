@@ -1,41 +1,90 @@
 # @effect-line
 
-A collection of Effect-based libraries for working with LINE Platform APIs. This project wraps LINE SDK functionalities in the Effect type, making them more ergonomic to use within the [Effect](https://www.effect.website) ecosystem.
+> Effect-based libraries for LINE Platform integration with automatic error handling and type safety
 
 ## Features
 
-- Type-safe LINE API integrations with automatic error handling
-- Dependency injection and testing made easy with Effect
-- Modern ES modules and CommonJS support
-- Command line tools for development
+- **Type-safe Integration**: Full TypeScript support with proper type inference
+- **Automatic Error Handling**: Built-in error handling and retry policies
+- **Effect-based Architecture**: Leverage the power of [Effect](https://effect.website) for better composability
+- **Modern Development**: ES modules support and comprehensive CLI tools
+- **Security First**: Secure credential management and webhook validation
 
 ## Packages
 
-- `@effect-line/core` - Shared types, utilities
-- `@effect-line/messaging-api` - LINE Messaging API integration with automatic error handling and retry policies
-- `@effect-line/liff` - LINE Liff API integration (coming soon)
+- `@effect-line/core` - Core utilities, configuration, and shared functionality
+- `@effect-line/messaging-api` - LINE Messaging API integration with automatic error handling
+- `@effect-line/domain` - Shared domain types and interfaces
+- `@effect-line/cli` - Command-line tools for LINE Platform operations
 
-## Installation
+## Quick Start
+
+### Installation
 
 ```bash
-pnpm add @effect-line/messaging-api @effect-line/config
+# Install core functionality
+pnpm add @effect-line/core
+
+# Install messaging API integration
+pnpm add @effect-line/messaging-api
+
+# Install CLI tools (optional)
+pnpm add -g @effect-line/cli
+```
+
+### Basic Usage
+
+```typescript
+import { Effect } from "effect"
+import { MessagingApi } from "@effect-line/messaging-api"
+
+// Create a program to send a message
+const program = Effect.gen(function* () {
+  const api = yield* MessagingApi
+  
+  yield* api.pushMessage({
+    to: "USER_ID",
+    messages: [{ type: "text", text: "Hello from Effect!" }]
+  })
+})
+
+// Run with automatic error handling
+program.pipe(
+  Effect.provide(MessagingApi.layer),
+  Effect.runPromise
+)
 ```
 
 ## Development
 
 ```bash
-# Install
+# Clone the repository
 git clone https://github.com/your-username/effect-line.git
 cd effect-line
+
+# Install dependencies
 pnpm install
 
-# Common commands
-pnpm build    # Build all packages
-pnpm test     # Run tests
-pnpm format   # Format code
+# Build all packages
+pnpm build
+
+# Run tests
+pnpm test
+
+# Format code
+pnpm format
 ```
 
-For development guidelines and best practices when using Windsurf IDE, please refer to [PROMPTS.md](PROMPTS.md).
+## Documentation
+
+- [Core Package](packages/core/README.md)
+- [Messaging API](packages/messaging-api/README.md)
+- [CLI Tools](packages/cli/README.md)
+- [Domain Types](packages/domain/README.md)
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 

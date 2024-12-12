@@ -1,33 +1,48 @@
 # @effect-line/messaging-api
 
-Effect-based wrapper for LINE Bot SDK's Messaging API.
+> Effect-based wrapper for LINE Messaging API with automatic error handling and retries
+
+## Features
+
+- Type-safe LINE Messaging API integration
+- Automatic error handling and retries
+- Effect-based API for better composability
+- Full TypeScript support
+- Modern ES modules
 
 ## Installation
 
 ```bash
-npm install @effect-line/messaging-api
-# or
-yarn add @effect-line/messaging-api
-# or
 pnpm add @effect-line/messaging-api
 ```
 
 ## Usage
 
+### Configuration
+
+First, set up your LINE API credentials as environment variables:
+
+```bash
+export LINE_CHANNEL_ID=your_channel_id
+export LINE_CHANNEL_SECRET=your_channel_secret
+export LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token
+```
+
 ### Push Message
 
+Send a message to a single user:
+
 ```typescript
-import { Effect, Console } from "effect"
+import { Effect } from "effect"
 import { NodeRuntime } from "@effect/platform-node"
 import { MessagingApi } from "@effect-line/messaging-api"
 
-// Create a program that uses the MessagingApi
 const program = Effect.gen(function* () {
   const api = yield* MessagingApi
 
-  // Send a text message to a single user
-  const response = yield* api.pushMessage({
-    to: "userId",
+  // Send a text message
+  const result = yield* api.pushMessage({
+    to: "USER_ID",
     messages: [
       {
         type: "text",
@@ -36,98 +51,83 @@ const program = Effect.gen(function* () {
     ]
   })
 
-  return response
+  return result
 })
 
-// Run the program with the layer
-NodeRuntime.runMain(program.pipe(Effect.provide(MessagingApi.Default)))
+// Run with automatic error handling
+NodeRuntime.runMain(
+  program.pipe(
+    Effect.provide(MessagingApi.layer)
+  )
+)
 ```
 
 ### Multicast Message
 
+Send messages to multiple users:
+
 ```typescript
-// Send a message to multiple users
-const multicastProgram = Effect.gen(function* ($) {
-  const api = yield* $(MessagingApi)
+const multicastProgram = Effect.gen(function* () {
+  const api = yield* MessagingApi
 
-  // Send a text message to multiple users
-  const response = yield* $(
-    api.multicast({
-      to: ["userId1", "userId2", "userId3"],
-      messages: [
-        {
-          type: "text",
-          text: "Hello, everyone!"
-        }
-      ]
-    })
-  )
-
-  return response
+  // Send to multiple users
+  yield* api.multicast({
+    to: ["USER_ID_1", "USER_ID_2"],
+    messages: [
+      {
+        type: "text",
+        text: "Hello, everyone!"
+      }
+    ]
+  })
 })
 ```
 
-## Available Methods
+### Error Handling
 
-The package provides Effect-based wrappers for LINE Bot SDK methods:
-
-- Message Operations
-
-  - `pushMessage`
-  - `replyMessage`
-  - `multicast`
-  - `broadcast`
-  - `narrowcast`
-
-- Profile Operations
-
-  - `getProfile`
-  - `getGroupMemberProfile`
-  - `getRoomMemberProfile`
-
-- Group/Room Operations
-
-  - `leaveGroup`
-  - `leaveRoom`
-
-- Default Rich Menu Operations
-
-  - `getDefaultRichMenuId`
-  - `setDefaultRichMenu`
-  - `cancelDefaultRichMenu`
-
-- Other Operations
-  - `issueLinkToken`
-  - `getNumberOfSentReplyMessages`
-  - `getNumberOfSentPushMessages`
-  - `getNumberOfSentMulticastMessages`
-  - `getNumberOfSentBroadcastMessages`
-
-## Testing
-
-The package includes a `TestMessagingApi` class that can be used for testing:
+The API automatically handles common errors and implements retry policies:
 
 ```typescript
-import { TestMessagingApi } from "@effect-line/messaging-api/test"
+import { Effect, Console } from "effect"
 
-const testApi = new TestMessagingApi()
-const testLayer = Layer.succeed(MessagingApi, testApi)
-
-// Run your program with the test layer
-const result = yield * $(program.pipe(Effect.provide(testLayer)))
-
-// Check the calls made to pushMessage
-const pushCalls = testApi.getPushMessageCalls()
-expect(pushCalls).toHaveLength(1)
-
-// Check the calls made to multicast
-const multicastCalls = testApi.getMulticastCalls()
-expect(multicastCalls).toHaveLength(1)
-
-// Reset all calls
-testApi.reset()
+const programWithErrorHandling = program.pipe(
+  Effect.catchTag("RateLimitError", (error) => 
+    Console.log("Rate limit exceeded:", error)
+  ),
+  Effect.catchTag("InvalidTokenError", (error) => 
+    Console.error("Invalid token:", error)
+  )
+)
 ```
+
+## API Reference
+
+### MessagingApi
+
+The main service interface:
+
+```typescript
+interface MessagingApi {
+  readonly pushMessage: (params: PushMessageParams) => Effect<never, ApiError, PushMessageResult>
+  readonly multicast: (params: MulticastParams) => Effect<never, ApiError, MulticastResult>
+  // ... more methods
+}
+```
+
+### Error Types
+
+Common error types that may occur:
+
+- `ApiError` - Base error type
+- `RateLimitError` - When API rate limit is exceeded
+- `InvalidTokenError` - When access token is invalid
+- `NetworkError` - For connection issues
+- `ValidationError` - For invalid parameters
+
+## CLI Integration
+
+This package is used by `@effect-line/cli` to provide command-line interface for LINE operations. See the CLI package for more details.
 
 ## License
 
-MIT
+MIT License - see the [LICENSE](LICENSE) file for details
