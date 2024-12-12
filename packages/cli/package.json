@@ -1,9 +1,9 @@
 {
-  "name": "@template/cli",
-  "version": "0.0.0",
+  "name": "@effect-line/cli",
+  "version": "0.0.1",
   "type": "module",
   "license": "MIT",
-  "description": "The CLI template",
+  "description": "The CLI for LINE Platform integration",
   "repository": {
     "type": "git",
     "url": "<PLACEHOLDER>",
@@ -27,6 +27,8 @@
     "@effect/cli": "latest",
     "@effect/platform": "latest",
     "@effect/platform-node": "latest",
+    "@effect-line/core": "workspace:*",
+    "@effect-line/messaging-api": "workspace:*",
     "@template/domain": "workspace:^",
     "effect": "latest"
   },

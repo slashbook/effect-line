@@ -3,7 +3,9 @@
   "include": ["test"],
   "references": [
     { "path": "tsconfig.src.json" },
-    { "path": "../domain" } 
+    { "path": "../domain" } ,
+    { "path": "../core" },
+    { "path": "../messaging-api" }
   ],
   "compilerOptions": {
     "types": ["node"],
