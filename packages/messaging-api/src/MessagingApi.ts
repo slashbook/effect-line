@@ -97,5 +97,19 @@ export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
   MessagingApi,
   MessagingApiInterface
 >() {
+  /**
+   * The default MessagingApi layer that uses the channel access token from environment variables.
+   *
+   * @since 0.0.1
+   * @category layers
+   */
   static readonly Default = Layer.effect(MessagingApi, make)
+
+  /**
+   * The MessagingApi layer that uses the provided channel access token.
+   *
+   * @since 0.0.1
+   * @category layers
+   */
+  static readonly layer = (accessToken: string) => Layer.effect(MessagingApi, makeMessagingApi(accessToken))
 }

@@ -100,6 +100,68 @@ const programWithErrorHandling = program.pipe(
 )
 ```
 
+### Using Custom Channel Access Token
+
+If you need to use a different channel access token than the one specified in environment variables, you can create a custom layer:
+
+```typescript
+import { MessagingApi } from "@effect-line/messaging-api"
+
+// Create a layer with custom access token
+const customBot = MessagingApi.layer("your-custom-access-token")
+
+const program = Effect.gen(function*() {
+  const api = yield* MessagingApi
+  
+  yield* api.pushMessage({
+    to: "USER_ID",
+    messages: [{ type: "text", text: "Hello from custom bot!" }]
+  })
+})
+
+// Use the custom bot layer
+program.pipe(
+  Effect.provide(customBot),
+  Effect.runPromise
+)
+```
+
+### Using Multiple Bots
+
+You can create multiple layers for different bots and use them in your program:
+
+```typescript
+import { MessagingApi } from "@effect-line/messaging-api"
+
+// Create layers for different bots
+const bot1 = MessagingApi.layer("bot1-access-token")
+const bot2 = MessagingApi.layer("bot2-access-token")
+
+// Use bot1
+const program1 = Effect.gen(function*() {
+  const api = yield* MessagingApi
+  yield* api.pushMessage({
+    to: "USER_ID",
+    messages: [{ type: "text", text: "Hello from Bot 1!" }]
+  })
+}).pipe(
+  Effect.provide(bot1),
+  Effect.runPromise
+)
+
+// Use bot2
+const program2 = Effect.gen(function*() {
+  const api = yield* MessagingApi
+  yield* api.pushMessage({
+    to: "USER_ID",
+    messages: [{ type: "text", text: "Hello from Bot 2!" }]
+  })
+}).pipe(
+  Effect.provide(bot2),
+  Effect.runPromise
+)
+```
+
 ## API Reference
 
 ### MessagingApi
