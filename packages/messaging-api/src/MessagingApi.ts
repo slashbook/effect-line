@@ -97,5 +97,5 @@ export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
   MessagingApi,
   MessagingApiInterface
 >() {
-  static readonly layer = Layer.effect(MessagingApi, make)
+  static readonly Default = Layer.effect(MessagingApi, make)
 }

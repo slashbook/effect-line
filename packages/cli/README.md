@@ -72,7 +72,7 @@ import { Effect, Layer } from "effect"
 import { MessagingApi } from "@effect-line/messaging-api"
 
 // Create the layer
-const MainLive = MessagingApi.layer.pipe(
+const MainLive = MessagingApi.Default.pipe(
   Layer.merge(NodeContext.layer)
 )
 

@@ -5,7 +5,7 @@ import { NodeContext, NodeRuntime } from "@effect/platform-node"
 import { Effect, Layer } from "effect"
 import { cli } from "./Cli.js"
 
-const MainLive = MessagingApi.layer.pipe(
+const MainLive = MessagingApi.Default.pipe(
   Layer.merge(NodeContext.layer)
 )
 

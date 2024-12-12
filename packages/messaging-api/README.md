@@ -57,7 +57,7 @@ const program = Effect.gen(function* () {
 // Run with automatic error handling
 NodeRuntime.runMain(
   program.pipe(
-    Effect.provide(MessagingApi.layer)
+    Effect.provide(MessagingApi.Default)
   )
 )
 ```
