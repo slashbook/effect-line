@@ -4,7 +4,6 @@
   "references": [
     { "path": "packages/core/tsconfig.build.json" },
     { "path": "packages/messaging-api/tsconfig.build.json" },
-    { "path": "packages/cli/tsconfig.build.json" },
-    { "path": "packages/domain/tsconfig.build.json" }
+    { "path": "packages/cli/tsconfig.build.json" }
   ]
 }
