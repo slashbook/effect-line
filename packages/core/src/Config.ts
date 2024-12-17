@@ -1,6 +1,6 @@
 /**
  * Configuration module for LINE API credentials
- * 
+ *
  * @since 0.1.0
  */
 import { Config } from "effect"
