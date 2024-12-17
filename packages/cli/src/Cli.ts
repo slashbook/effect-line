@@ -1,14 +1,14 @@
 /**
  * @since 0.1.0
  */
-import { config } from "@effect-line/core"
+import { Config } from "@effect-line/core"
 import { MessagingApi } from "@effect-line/messaging-api"
 import { Command, Options } from "@effect/cli"
 import { Console, Effect } from "effect"
 
 /**
  * Command-line option for specifying a single user ID
- * 
+ *
  * @since 0.1.0
  * @category options
  * @example
@@ -24,7 +24,7 @@ const userId = Options.text("userId").pipe(
 
 /**
  * Command-line option for specifying multiple user IDs
- * 
+ *
  * @since 0.1.0
  * @category options
  * @example
@@ -41,7 +41,7 @@ const userIds = Options.text("userIds").pipe(
 /**
  * Command-line option for specifying message content
  * Can be used multiple times to send multiple messages
- * 
+ *
  * @since 0.1.0
  * @category options
  * @example
@@ -58,7 +58,7 @@ const message = Options.text("message").pipe(
 
 /**
  * Command for sending messages to a single user
- * 
+ *
  * @since 0.1.0
  * @category commands
  * @example
@@ -70,7 +70,7 @@ const pushMessageCommand = Command.make("push-message", { userId, message }).pip
   Command.withDescription("Send messages to a user"),
   Command.withHandler(({ message, userId }) => {
     return Effect.gen(function*() {
-      const api = yield* MessagingApi
+      const api = yield* MessagingApi.MessagingApi
       const messages = message.map((m) => ({ type: "text" as const, text: m }))
       const result = yield* api.pushMessage({ to: userId, messages })
       yield* Console.log(`${result.sentMessages.length} messages sent successfully`)
@@ -80,7 +80,7 @@ const pushMessageCommand = Command.make("push-message", { userId, message }).pip
 
 /**
  * Command for sending messages to multiple users
- * 
+ *
  * @since 0.1.0
  * @category commands
  * @example
@@ -92,7 +92,7 @@ const multicastCommand = Command.make("multicast", { userIds, message }).pipe(
   Command.withDescription("Send messages to multiple users"),
   Command.withHandler(({ message, userIds }) => {
     return Effect.gen(function*() {
-      const api = yield* MessagingApi
+      const api = yield* MessagingApi.MessagingApi
       const messages = message.map((m) => ({ type: "text" as const, text: m }))
       const to = userIds.split(",").map((id) => id.trim())
       yield* api.multicast({ to, messages })
@@ -103,7 +103,7 @@ const multicastCommand = Command.make("multicast", { userIds, message }).pipe(
 
 /**
  * Command group for LINE Messaging API commands
- * 
+ *
  * @since 0.1.0
  * @category commands
  */
@@ -114,7 +114,7 @@ const messagingApiCommands = Command.make("messaging-api").pipe(
 
 /**
  * The name of the command-line tool
- * 
+ *
  * @since 0.1.0
  * @category config
  */
@@ -122,7 +122,7 @@ const commandName = "effect-line"
 
 /**
  * The version of the command-line tool
- * 
+ *
  * @since 0.1.0
  * @category config
  */
@@ -130,7 +130,7 @@ const commandVersion = "0.1.0"
 
 /**
  * The description of the command-line tool
- * 
+ *
  * @since 0.1.0
  * @category config
  */
@@ -138,14 +138,14 @@ const commandDescription = "A command-line interface for interacting with LINE A
 
 /**
  * The main command-line command
- * 
+ *
  * @since 0.1.0
  * @category commands
  */
 const command = Command.make(commandName).pipe(
   Command.withHandler(() =>
     Effect.gen(function*() {
-      const cfg = yield* config
+      const cfg = yield* Config.config
       yield* Console.log(`Running ${commandName} with Channel ID: ${cfg.channelId}`)
     })
   ),

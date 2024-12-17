@@ -1,7 +1,7 @@
 /**
  * Effect-based wrapper for LINE Bot SDK's Messaging API
  * Provides a type-safe and functional way to interact with LINE's Messaging API
- * 
+ *
  * @since 0.1.0
  */
 
@@ -12,7 +12,7 @@ import * as Data from "effect/Data"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 
-import { config } from "@effect-line/core"
+import { Config } from "@effect-line/core"
 import { Redacted } from "effect"
 
 type MulticastResponse = any
@@ -20,7 +20,7 @@ type MulticastResponse = any
 /**
  * Represents errors that occur when interacting with the LINE Bot SDK.
  * Wraps any underlying errors from the SDK for better error handling.
- * 
+ *
  * @since 0.1.0
  * @category errors
  * @example
@@ -54,7 +54,7 @@ export interface MessagingApiInterface {
   /**
    * Sends a push message to a user or a group.
    * Returns the response from the LINE Bot SDK.
-   * 
+   *
    * @since 0.1.0
    * @category methods
    * @example
@@ -76,7 +76,7 @@ export interface MessagingApiInterface {
   /**
    * Sends a multicast message to multiple users or groups.
    * Returns the response from the LINE Bot SDK.
-   * 
+   *
    * @since 0.1.0
    * @category methods
    * @example
@@ -99,7 +99,7 @@ export interface MessagingApiInterface {
 /**
  * Converts a promise-returning function into an Effect-based function.
  * Automatically handles errors by wrapping them in LineBotSDKError.
- * 
+ *
  * @since 0.1.0
  * @category utils
  * @internal
@@ -112,7 +112,7 @@ const effectify = <Args extends Array<unknown>, B>(f: (...args: Args) => Promise
 
 /**
  * Creates a new MessagingApi instance with the provided channel access token.
- * 
+ *
  * @since 0.1.0
  * @category constructors
  * @internal
@@ -131,20 +131,20 @@ const makeMessagingApi = (channelAccessToken: string) =>
 
 /**
  * Creates a live MessagingApi layer with the provided channel access token from environment variables.
- * 
+ *
  * @since 0.1.0
  * @category constructors
  * @internal
  */
 const make = Effect.gen(function*() {
-  const cfg = yield* config
+  const cfg = yield* Config.config
   return yield* makeMessagingApi(Redacted.value(cfg.channelAccessToken))
 })
 
 /**
  * The main entry point for interacting with the LINE Bot SDK.
  * Provides access to all messaging API methods in an Effect-based way.
- * 
+ *
  * @since 0.1.0
  */
 export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
@@ -153,7 +153,7 @@ export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
 >() {
   /**
    * The default MessagingApi layer that uses the channel access token from environment variables.
-   * 
+   *
    * @since 0.1.0
    * @category layers
    */
@@ -161,7 +161,7 @@ export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
 
   /**
    * The MessagingApi layer that uses the provided channel access token.
-   * 
+   *
    * @since 0.1.0
    * @category layers
    */
