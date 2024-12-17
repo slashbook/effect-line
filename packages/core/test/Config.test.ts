@@ -1,6 +1,6 @@
 import { Config, Effect, Redacted } from "effect"
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
-import { config } from "../src/Config"
+import { config } from "../src/Config.js"
 
 describe("LineConfig", () => {
   beforeEach(() => {

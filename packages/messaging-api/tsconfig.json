@@ -3,7 +3,6 @@
   "include": ["src/**/*"],
   "references": [
     { "path": "../core" },
-    { "path": "tsconfig.src.json" },
-    { "path": "tsconfig.test.json" }
+    { "path": "tsconfig.src.json" }
   ]
 }
