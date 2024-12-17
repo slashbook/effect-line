@@ -40,7 +40,7 @@ describe("MessagingApi", () => {
           to: mockUserId,
           messages: [mockMessage]
         })
-        
+
         const calls = testApi.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual({
@@ -67,7 +67,7 @@ describe("MessagingApi", () => {
           },
           retryKey
         )
-        
+
         const calls = testApi.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toStrictEqual({
@@ -96,7 +96,7 @@ describe("MessagingApi", () => {
           to: mockUserId,
           messages: [invalidMessage]
         })
-        
+
         const calls = testApi.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request.messages[0]).toEqual(invalidMessage)
@@ -120,7 +120,7 @@ describe("MessagingApi", () => {
           to: mockUserIds,
           messages: [mockMessage]
         })
-        
+
         const calls = testApi.getMulticastCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual({
@@ -144,7 +144,7 @@ describe("MessagingApi", () => {
           to: mockUserIds,
           messages: [mockMessage]
         }, retryKey)
-        
+
         const calls = testApi.getMulticastCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].retryKey).toBe(retryKey)
@@ -175,7 +175,7 @@ describe("MessagingApi", () => {
       const program = Effect.gen(function*() {
         const api = yield* MessagingApi
         yield* api.pushMessage(mockMessage)
-        
+
         const calls = testApi.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual(mockMessage)
@@ -196,7 +196,7 @@ describe("MessagingApi", () => {
       const program = Effect.gen(function*() {
         const api = yield* MessagingApi
         yield* api.multicast(mockMulticastMessage)
-        
+
         const calls = testApi.getMulticastCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual(mockMulticastMessage)
@@ -226,7 +226,7 @@ describe("MessagingApi", () => {
       const program = Effect.gen(function*() {
         const api = yield* MessagingApi
         yield* api.pushMessage(mockMessage)
-        
+
         const calls = testApi.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual(mockMessage)
@@ -247,7 +247,7 @@ describe("MessagingApi", () => {
       const program = Effect.gen(function*() {
         const api = yield* MessagingApi
         yield* api.multicast(mockMulticastMessage)
-        
+
         const calls = testApi.getMulticastCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual(mockMulticastMessage)
@@ -280,7 +280,7 @@ describe("MessagingApi", () => {
       const program1 = Effect.gen(function*() {
         const api = yield* MessagingApi
         yield* api.pushMessage(mockMessage)
-        
+
         const calls = testApi1.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual(mockMessage)
@@ -289,7 +289,7 @@ describe("MessagingApi", () => {
       const program2 = Effect.gen(function*() {
         const api = yield* MessagingApi
         yield* api.pushMessage(mockMessage)
-        
+
         const calls = testApi2.getPushMessageCalls()
         expect(calls).toHaveLength(1)
         expect(calls[0].request).toEqual(mockMessage)
