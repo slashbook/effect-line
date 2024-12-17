@@ -1,6 +1,11 @@
 {
   "private": true,
   "type": "module",
+  "name": "@effect-line/monorepo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/slashlifeai/effect-builder.git"
+  },
   "packageManager": "pnpm@9.10.0",
   "workspaces": [
     "packages/*"

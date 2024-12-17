@@ -6,8 +6,8 @@
   "description": "The LINE Messaging API integration",
   "repository": {
     "type": "git",
-    "url": "<PLACEHOLDER>",
-    "directory": "packages/domain"
+    "url": "https://github.com/slashlifeai/effect-builder.git",
+    "directory": "packages/messaging-api"
   },
   "publishConfig": {
     "access": "public",
