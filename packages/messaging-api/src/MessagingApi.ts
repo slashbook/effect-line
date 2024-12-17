@@ -1,7 +1,8 @@
 /**
- * @since 0.0.1
- *
  * Effect-based wrapper for LINE Bot SDK's Messaging API
+ * Provides a type-safe and functional way to interact with LINE's Messaging API
+ * 
+ * @since 0.1.0
  */
 
 import { messagingApi } from "@line/bot-sdk"
@@ -18,6 +19,14 @@ type MulticastResponse = any
 
 /**
  * Represents errors that occur when interacting with the LINE Bot SDK.
+ * Wraps any underlying errors from the SDK for better error handling.
+ * 
+ * @since 0.1.0
+ * @category errors
+ * @example
+ * ```ts
+ * const error = new LineBotSDKError({ error: new Error("Network error") })
+ * ```
  */
 export class LineBotSDKError extends Data.TaggedError("LineBotSDKError")<{
   readonly error: unknown
@@ -26,16 +35,61 @@ export class LineBotSDKError extends Data.TaggedError("LineBotSDKError")<{
 /**
  * The interface that defines all available LINE Bot SDK methods.
  * Each method is wrapped in an Effect for better error handling and composability.
+ * Supports all major LINE Messaging API operations like push messages and multicast.
  *
- * @since 0.0.1
+ * @since 0.1.0
  * @category models
+ * @example
+ * ```ts
+ * const program = Effect.gen(function*($) {
+ *   const api = yield* $(MessagingApi)
+ *   yield* $(api.pushMessage({
+ *     to: "USER_ID",
+ *     messages: [{ type: "text", text: "Hello!" }]
+ *   }))
+ * })
+ * ```
  */
 export interface MessagingApiInterface {
+  /**
+   * Sends a push message to a user or a group.
+   * Returns the response from the LINE Bot SDK.
+   * 
+   * @since 0.1.0
+   * @category methods
+   * @example
+   * ```ts
+   * const program = Effect.gen(function*($) {
+   *   const api = yield* $(MessagingApi)
+   *   yield* $(api.pushMessage({
+   *     to: "USER_ID",
+   *     messages: [{ type: "text", text: "Hello!" }]
+   *   }))
+   * })
+   * ```
+   */
   readonly pushMessage: (
     pushMessageRequest: PushMessageRequest,
     xLineRetryKey?: string | undefined
   ) => Effect.Effect<PushMessageResponse, LineBotSDKError, never>
 
+  /**
+   * Sends a multicast message to multiple users or groups.
+   * Returns the response from the LINE Bot SDK.
+   * 
+   * @since 0.1.0
+   * @category methods
+   * @example
+   * ```ts
+   * const program = Effect.gen(function*($) {
+   *   const api = yield* $(MessagingApi)
+   *   yield* $(api.multicast({
+   *     to: ["USER_ID1", "USER_ID2"],
+   *     messages: [{ type: "text", text: "Hello!" }]
+   *   }))
+   * })
+   * ```
+   */
   readonly multicast: (
     multicastRequest: MulticastRequest,
     xLineRetryKey?: string | undefined
@@ -45,8 +99,8 @@ export interface MessagingApiInterface {
 /**
  * Converts a promise-returning function into an Effect-based function.
  * Automatically handles errors by wrapping them in LineBotSDKError.
- *
- * @since 0.0.1
+ * 
+ * @since 0.1.0
  * @category utils
  * @internal
  */
@@ -58,8 +112,8 @@ const effectify = <Args extends Array<unknown>, B>(f: (...args: Args) => Promise
 
 /**
  * Creates a new MessagingApi instance with the provided channel access token.
- *
- * @since 0.0.1
+ * 
+ * @since 0.1.0
  * @category constructors
  * @internal
  */
@@ -77,8 +131,8 @@ const makeMessagingApi = (channelAccessToken: string) =>
 
 /**
  * Creates a live MessagingApi layer with the provided channel access token from environment variables.
- *
- * @since 0.0.1
+ * 
+ * @since 0.1.0
  * @category constructors
  * @internal
  */
@@ -90,8 +144,8 @@ const make = Effect.gen(function*() {
 /**
  * The main entry point for interacting with the LINE Bot SDK.
  * Provides access to all messaging API methods in an Effect-based way.
- *
- * @since 0.0.1
+ * 
+ * @since 0.1.0
  */
 export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
   MessagingApi,
@@ -99,16 +153,16 @@ export class MessagingApi extends Context.Tag("@effect-line/MessagingApi")<
 >() {
   /**
    * The default MessagingApi layer that uses the channel access token from environment variables.
-   *
-   * @since 0.0.1
+   * 
+   * @since 0.1.0
    * @category layers
    */
   static readonly Default = Layer.effect(MessagingApi, make)
 
   /**
    * The MessagingApi layer that uses the provided channel access token.
-   *
-   * @since 0.0.1
+   * 
+   * @since 0.1.0
    * @category layers
    */
   static readonly layer = (accessToken: string) => Layer.effect(MessagingApi, makeMessagingApi(accessToken))
