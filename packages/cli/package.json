@@ -29,14 +29,12 @@
     "@effect/platform-node": "latest",
     "@effect-line/core": "workspace:*",
     "@effect-line/messaging-api": "workspace:*",
-    "@template/domain": "workspace:^",
     "effect": "latest"
   },
   "devDependencies": {
     "@effect/cli": "latest",
     "@effect/platform": "latest",
     "@effect/platform-node": "latest",
-    "@template/domain": "workspace:^",
     "effect": "latest"
   },
   "effect": {
