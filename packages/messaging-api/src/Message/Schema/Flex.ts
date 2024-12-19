@@ -1,19 +1,21 @@
 import { Schema as S } from "effect"
-import { BaseMessage } from "./Message.js"
+import { BaseMessageSchema } from "./Message.js"
 
 /**
- * @since 0.0.1
+ * Schema for Flex Layout Type
+ * @since 0.1.0
  */
-export const FlexLayoutType = S.Literal(
+export const FlexLayoutTypeSchema = S.Literal(
   "horizontal",
   "vertical",
   "baseline"
 )
 
 /**
- * @since 0.0.1
+ * Base schema for all Flex components
+ * @since 0.1.0
  */
-export const FlexComponentBase = S.Struct({
+export const FlexComponentBaseSchema = S.Struct({
   flex: S.optional(S.Number),
   margin: S.optional(S.String),
   position: S.optional(S.String),
@@ -25,13 +27,14 @@ export const FlexComponentBase = S.Struct({
 })
 
 /**
- * @since 0.0.1
+ * Schema for Flex Box component
+ * @since 0.1.0
  */
-export const FlexBox = FlexComponentBase.pipe(
+export const FlexBoxSchema = FlexComponentBaseSchema.pipe(
   S.extend(S.Struct({
     type: S.Literal("box"),
-    layout: FlexLayoutType,
-    contents: S.Array(S.Any),
+    layout: FlexLayoutTypeSchema,
+    contents: S.Array(S.Any), // TODO: use Flex component schema
     backgroundColor: S.optional(S.String),
     borderColor: S.optional(S.String),
     borderWidth: S.optional(S.String),
@@ -47,9 +50,10 @@ export const FlexBox = FlexComponentBase.pipe(
 )
 
 /**
- * @since 0.0.1
+ * Schema for Flex Text component
+ * @since 0.1.0
  */
-export const FlexText = FlexComponentBase.pipe(
+export const FlexTextSchema = FlexComponentBaseSchema.pipe(
   S.extend(S.Struct({
     type: S.Literal("text"),
     text: S.String,
@@ -68,9 +72,10 @@ export const FlexText = FlexComponentBase.pipe(
 )
 
 /**
- * @since 0.0.1
+ * Schema for Flex Image component
+ * @since 0.1.0
  */
-export const FlexImage = FlexComponentBase.pipe(
+export const FlexImageSchema = FlexComponentBaseSchema.pipe(
   S.extend(S.Struct({
     type: S.Literal("image"),
     url: S.String,
@@ -83,51 +88,56 @@ export const FlexImage = FlexComponentBase.pipe(
 )
 
 /**
- * @since 0.0.1
+ * Union of all Flex component schemas
+ * @since 0.1.0
  */
-export const FlexComponent = S.Union(
-  FlexBox,
-  FlexText,
-  FlexImage
+export const FlexComponentSchema = S.Union(
+  FlexBoxSchema,
+  FlexTextSchema,
+  FlexImageSchema
 )
 
 /**
- * @since 0.0.1
+ * Schema for Flex Bubble container
+ * @since 0.1.0
  */
-export const FlexBubble = S.Struct({
+export const FlexBubbleSchema = S.Struct({
   type: S.Literal("bubble"),
   size: S.optional(S.String),
   direction: S.optional(S.String),
-  header: S.optional(FlexBox),
-  hero: S.optional(FlexBox),
-  body: S.optional(FlexBox),
-  footer: S.optional(FlexBox),
-  styles: S.optional(S.Any) // TODO: Define styles schema
+  header: S.optional(FlexBoxSchema),
+  hero: S.optional(FlexBoxSchema),
+  body: S.optional(FlexBoxSchema),
+  footer: S.optional(FlexBoxSchema),
+  styles: S.optional(S.Any)
 })
 
 /**
- * @since 0.0.1
+ * Schema for Flex Carousel container
+ * @since 0.1.0
  */
-export const FlexCarousel = S.Struct({
+export const FlexCarouselSchema = S.Struct({
   type: S.Literal("carousel"),
-  contents: S.Array(FlexBubble)
+  contents: S.Array(FlexBubbleSchema)
 })
 
 /**
- * @since 0.0.1
+ * Union of all Flex container schemas
+ * @since 0.1.0
  */
-export const FlexContainer = S.Union(
-  FlexBubble,
-  FlexCarousel
+export const FlexContainerSchema = S.Union(
+  FlexBubbleSchema,
+  FlexCarouselSchema
 )
 
 /**
- * @since 0.0.1
+ * Schema for Flex Message
+ * @since 0.1.0
  */
-export const FlexMessage = BaseMessage.pipe(
+export const FlexMessageSchema = BaseMessageSchema.pipe(
   S.extend(S.Struct({
     type: S.Literal("flex"),
     altText: S.String,
-    contents: FlexContainer
+    contents: FlexContainerSchema
   }))
 )
