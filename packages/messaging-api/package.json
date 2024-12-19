@@ -26,6 +26,7 @@
   "dependencies": {
     "@effect-line/core": "workspace:*",
     "effect": "latest",
+    "effect-builder": "^0.2.0",
     "@line/bot-sdk": "^8.2.0"
   },
   "effect": {
