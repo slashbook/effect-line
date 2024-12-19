@@ -1,76 +1,56 @@
-# @effect-line/messaging-api 0.1.0 Specification
+# @effect-line/messaging-api Specification
 
 ## Overview
 
-LINE Messaging API integration layer providing type-safe message handling and API client.
+LINE Messaging API integration layer providing type-safe API client and message builders.
 
-## Features
+## Project Structure
 
-### Message Types
-
-1. **Text Messages**
-   ```typescript
-   interface TextMessage {
-     type: "text"
-     text: string
-   }
-   ```
-
-2. **Image Messages**
-   ```typescript
-   interface ImageMessage {
-     type: "image"
-     originalContentUrl: string
-     previewImageUrl: string
-   }
-   ```
-
-### API Client
-
-Effect-based API client providing:
-- Type-safe request/response handling
-- Automatic error handling
-- Effect-based composability
-
-## Architecture
-
-### Design Principles
-
-1. **Type Safety**: Complete type coverage for LINE API
-2. **Effect Integration**: Native Effect ecosystem support
-3. **Error Handling**: Comprehensive error types and handling
-
-### Message Structure
-
-```typescript
-interface Message {
-  type: MessageType
-  // Type-specific fields
-}
-
-interface PushMessageParams {
-  to: string
-  messages: readonly Message[]
-}
+```
+messaging-api/
+├── src/
+│   ├── Message/
+│   │   ├── Schema/         # Message schemas
+│   │   │   ├── Flex.ts
+│   │   │   ├── Text.ts
+│   │   │   ├── Image.ts
+│   │   │   └── index.ts
+│   │   ├── Flex.ts        # builders and implementations
+│   │   ├── Text.ts
+│   │   ├── Image.ts
+│   │   └── index.ts       # re-exports
+│   ├── MessagingApi.ts    # service interface and implementation
+│   └── index.ts
 ```
 
-### Error Types
+Each module follows Effect-style organization:
 
-Standard error types for LINE API interactions:
-- Network errors
-- Authentication errors
-- Rate limit errors
-- Invalid message format errors
+- Uppercase filenames for Effect modules
+- Types, schemas, builders and implementations in the same file
+- Clear module boundaries and exports
 
-## Usage Examples
+## Core Features (0.1.0)
 
-### Sending Messages
+### MessagingApi Service
 
 ```typescript
-import { MessagingApi } from "@effect-line/messaging-api"
-import { Config } from "@effect-line/core"
-import { Effect, pipe } from "effect"
+// MessagingApi.ts
+import { Effect } from "effect"
+import type { Message } from "./Message"
 
+export interface MessagingApi {
+  readonly pushMessage: (
+    params: PushMessageParams
+  ) => Effect<never, MessagingError, void>
+  readonly replyMessage: (
+    params: ReplyMessageParams
+  ) => Effect<never, MessagingError, void>
+  readonly broadcastMessage: (
+    params: BroadcastMessageParams
+  ) => Effect<never, MessagingError, void>
+}
+
+// Usage
 const program = pipe(
   MessagingApi.pushMessage({
     to: "USER_ID",
@@ -83,3 +63,101 @@ const program = pipe(
   }),
   Effect.provideService(Config, config)
 )
+```
+
+All message types and error types are derived from @line/bot-sdk.
+
+## New Features (0.2.0)
+
+### Type-safe Message Builder
+
+Version 0.2.0 introduces type-safe message builders using Effect Schema and effect-builder:
+
+1. **Schema-based Type Definitions**
+
+   - Use Effect Schema for type definitions
+   - Derive runtime validation from schema
+   - Ensure type safety at compile time and runtime
+
+2. **Builder Pattern with Defaults**
+
+   - Fluent API for constructing messages
+   - Default values for common configurations
+   - Immutable operations
+
+3. **Composable Field Updates**
+   - Use Builder.compose for multiple field updates
+   - Type-safe field access and modification
+   - Automatic validation on build
+
+```typescript
+// Message/Schema/Flex.ts
+import { Schema } from "effect"
+
+export const FlexMessageSchema = Schema.struct({
+  type: Schema.Literal("flex"),
+  altText: Schema.String,
+  contents: FlexContainerSchema
+} as const)
+
+export const FlexBubbleSchema = Schema.struct({
+  type: Schema.Literal("bubble"),
+  size: Schema.Union(
+    Schema.Literal("nano"),
+    Schema.Literal("micro"),
+    Schema.Literal("kilo"),
+    Schema.Literal("mega"),
+    Schema.Literal("giga")
+  ),
+  direction: Schema.Union(Schema.Literal("ltr"), Schema.Literal("rtl"))
+} as const)
+
+// Message/Flex.ts
+import { Builder } from "effect-builder"
+import type { FlexMessage, FlexBubble, FlexBox, FlexText } from "@line/bot-sdk"
+import { FlexMessageSchema, FlexBubbleSchema } from "./Schema/Flex"
+
+// Builder definitions with defaults
+export const FlexMessage = Builder.define<FlexMessage>(FlexMessageSchema)
+export const FlexBubble = Builder.define<FlexBubble>(FlexBubbleSchema, {
+  size: "mega",
+  direction: "ltr"
+})
+export const FlexBox = Builder.define<FlexBox>(FlexBoxSchema, {
+  layout: "vertical"
+})
+export const FlexText = Builder.define<FlexText>(FlexTextSchema, {
+  size: "md",
+  weight: "regular",
+  color: "#000000"
+})
+
+// Usage Example
+const message = pipe(
+  FlexMessage.field("altText").set("Restaurant Menu"),
+  FlexMessage.field("contents").set(
+    pipe(
+      FlexBubble.field("body").set(
+        pipe(
+          FlexBox.field("contents").set([
+            pipe(
+              FlexText.compose(
+                FlexText.field("text").set("Brown Cafe"),
+                FlexText.field("size").set("xl"),
+                FlexText.field("weight").set("bold")
+              )
+            )
+          ])
+        )
+      )
+    )
+  ),
+  FlexMessage.build()
+)
+```
+
+## Dependencies
+
+- `effect`: ^3.0.0
+- `effect-builder`: ^0.2.0
+- `@line/bot-sdk`: Latest version
